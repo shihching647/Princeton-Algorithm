@@ -64,6 +64,7 @@ public class Point implements Comparable<Point> {
         /* YOUR CODE HERE */
         if (compareTo(that) == 0) return Double.NEGATIVE_INFINITY;
         else if (this.x == that.x) return Double.POSITIVE_INFINITY;
+        else if (this.y == that.y) return 0; // y相同要回傳0, 不能用else相減的(因為是double不是精確為0)
         else {
             return (that.y - this.y) * 1.0 / (that.x - this.x);
         }
@@ -136,5 +137,9 @@ public class Point implements Comparable<Point> {
         Arrays.sort(points, o.slopeOrder());
         System.out.println(Arrays.toString(points));
 
+        Point p = new Point(4, 4);
+        Point q = new Point(2, 4);
+        Point r = new Point(5, 4);
+        System.out.println(p.slopeOrder().compare(q, r));
     }
 }

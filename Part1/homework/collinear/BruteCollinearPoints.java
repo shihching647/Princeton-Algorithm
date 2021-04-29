@@ -17,34 +17,27 @@ public class BruteCollinearPoints {
 
     // finds all line segments containing 4 points
     public BruteCollinearPoints(Point[] points) {
-        if (points == null)
-            throw new IllegalArgumentException("points array is null.");
+        check(points);
 
         int n = points.length;
         segments = new LineSegment[n];
 
         // sort points
-        Arrays.sort(points);
-
-        // check points
-        for (int i = 0; i < n - 1; i++) {
-            Point p1 = points[i];
-            Point p2 = points[i + 1];
-            if (p1 == null || p2 == null)
-                throw new IllegalArgumentException("points contain null.");
-            if (!less(p1, p2))
-                throw new IllegalArgumentException("points contain duplicate points.");
-        }
+        Point[] copyPoints = points.clone();
+        Arrays.sort(copyPoints);
+        checkDuplicate(copyPoints);
 
         for (int p = 0; p < n - 3; p++) {
             for (int q = p + 1; q < n - 2; q++) {
                 for (int r = q + 1; r < n - 1; r++) {
-                    if (points[p].slopeTo(points[q]) == points[q].slopeTo(points[r])) {
+                    if (copyPoints[p].slopeTo(copyPoints[q]) == copyPoints[q]
+                            .slopeTo(copyPoints[r])) {
                         for (int s = r + 1; s < n; s++) {
-                            if (points[r].slopeTo(points[s]) == points[p].slopeTo(points[q])) {
-                                segments[numberOfSegments++] = new LineSegment(points[p],
-                                                                               points[s]);
-                                System.out.println(new LineSegment(points[p], points[s]));
+                            if (copyPoints[r].slopeTo(copyPoints[s]) == copyPoints[p]
+                                    .slopeTo(copyPoints[q])) {
+                                segments[numberOfSegments++] = new LineSegment(copyPoints[p],
+                                                                               copyPoints[s]);
+                                // System.out.println(new LineSegment(copyPoints[p], copyPoints[s]));
                             }
                         }
                     }
@@ -52,6 +45,25 @@ public class BruteCollinearPoints {
             }
         }
 
+    }
+
+    // check arguments is legal or not
+    private void check(Point[] points) {
+        if (points == null)
+            throw new IllegalArgumentException("points array is null.");
+        for (int i = 0; i < points.length; i++) {
+            if (points[i] == null) throw new IllegalArgumentException("points contain null.");
+        }
+    }
+
+    // check points contain duplicate points
+    private void checkDuplicate(Point[] points) {
+        for (int i = 0; i < points.length - 1; i++) {
+            Point p1 = points[i];
+            Point p2 = points[i + 1];
+            if (!less(p1, p2))
+                throw new IllegalArgumentException("points contain duplicate points.");
+        }
     }
 
     private boolean less(Point p1, Point p2) {

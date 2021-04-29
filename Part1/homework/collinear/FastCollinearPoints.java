@@ -19,53 +19,79 @@ public class FastCollinearPoints {
 
     // finds all line segments containing 4 or more points
     public FastCollinearPoints(Point[] points) {
-        if (points == null)
-            throw new IllegalArgumentException("points array is null.");
+        check(points);
 
         int n = points.length;
-        segments = new LineSegment[n];
+        segments = new LineSegment[9000];
 
         // sort points
-        Arrays.sort(points);
-        System.out.println(Arrays.toString(points));
+        Point[] copyPoints = points.clone();
+        Arrays.sort(copyPoints);
+        checkDuplicate(copyPoints);
 
-        // check points
-        for (int i = 0; i < n - 1; i++) {
-            Point p1 = points[i];
-            Point p2 = points[i + 1];
-            if (p1 == null || p2 == null)
-                throw new IllegalArgumentException("points contain null.");
-            if (!less(p1, p2))
-                throw new IllegalArgumentException("points contain duplicate points.");
-        }
+        Point[] aux = new Point[n - 1];
+        Point preDestination = copyPoints[0];
+        double preSlope = preDestination.slopeTo(preDestination);
 
-        Point[] aux = new Point[points.length - 1];
         for (int i = 0; i < n; i++) {
-            Point p = points[i];
+            Point p = copyPoints[i];
             for (int j = i + 1, k = 0; j < n; j++) {
-                aux[k++] = points[j];
+                aux[k++] = copyPoints[j];
             }
-            System.out.println(Arrays.toString(aux));
-            Arrays.sort(aux, p.slopeOrder());
-
+            // System.out.println("aux[] = " + Arrays.toString(aux));
+            Arrays.sort(aux, 0, n - 1 - i, p.slopeOrder());
+            // System.out.println("aux[] = " + Arrays.toString(aux));
             // Point minPoint = aux[0];
             double maxSlope = p.slopeTo(aux[0]);
+            // System.out.println("point = " + aux[0] + "maxSlope = " + maxSlope);
             int count = 1;
-            for (int j = 1; i + j < aux.length - 1; j++) {
-                System.out.println(count);
+            int j;
+            double slope = 0;
+            for (j = 1; i + j < n - 1; j++) {
                 Point currentPoint = aux[j];
-                double slope = p.slopeTo(currentPoint);
+                slope = p.slopeTo(currentPoint);
+                // System.out.println("slope = " + slope);
+                // if (slope == preSlope) continue;
                 if (slope == maxSlope) count++;
                 else {
-                    if (count >= NUMBER_OF_POINT - 1) {
-                        System.out.println(p);
+                    if (count >= NUMBER_OF_POINT - 1
+                            && (preDestination.compareTo(aux[j - 1]) != 0 || slope != preSlope)) {
+                        // System.out.println("找到: " + p + ", " + aux[j - 1]);
                         segments[numberOfSegments++] = new LineSegment(p, aux[j - 1]);
                     }
                     // minPoint = currentPoint;
                     maxSlope = slope;
-                    count = 0;
+                    count = 1;
                 }
+                // System.out.println(count);
             }
+            if (count >= NUMBER_OF_POINT - 1 && (preDestination.compareTo(aux[j - 1]) != 0
+                    || slope != preSlope)) {
+                // System.out.println("找到: " + p + ", " + aux[j - 1]);
+                segments[numberOfSegments++] = new LineSegment(p, aux[j - 1]);
+                preDestination = aux[j - 1];
+                preSlope = maxSlope;
+                // i += count - 1;
+            }
+        }
+    }
+
+    // check arguments is legal or not
+    private void check(Point[] points) {
+        if (points == null)
+            throw new IllegalArgumentException("points array is null.");
+        for (int i = 0; i < points.length; i++) {
+            if (points[i] == null) throw new IllegalArgumentException("points contain null.");
+        }
+    }
+
+    // check points contain duplicate points
+    private void checkDuplicate(Point[] points) {
+        for (int i = 0; i < points.length - 1; i++) {
+            Point p1 = points[i];
+            Point p2 = points[i + 1];
+            if (!less(p1, p2))
+                throw new IllegalArgumentException("points contain duplicate points.");
         }
     }
 
@@ -114,5 +140,6 @@ public class FastCollinearPoints {
             segment.draw();
         }
         StdDraw.show();
+        // System.out.println("count = " + collinear.numberOfSegments);
     }
 }
