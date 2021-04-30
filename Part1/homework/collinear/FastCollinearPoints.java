@@ -56,7 +56,7 @@ public class FastCollinearPoints {
             for (int j = 2; j < aux.length; j++) {
                 Point currentPoint = aux[j];
                 double currentSlope = p.slopeTo(currentPoint);
-                if (currentSlope == slope) {
+                if (currentSlope == slope) { // 因為x, y介於-32,767~32,767, 所以可以直接比較兩個double
                     temp[count++] = currentPoint;
                     if (j == aux.length - 1) {
                         needCheck = true; // 最後一個element要檢查一次
@@ -69,11 +69,15 @@ public class FastCollinearPoints {
                 }
 
                 // 檢查p, aux[j - 1] 是否該被該被加入到segments[]內
-                // 先把temp排序，再比對第一個元素，若temp[0]與p不同, 代表此segment已被加入過
+                // 假設線段 A -> B -> C -> D (由小到大排列)共線
+                // 因為copyPoints[]已經sort過, 且aux[]也sort過, 且Arrays.sort()為stable, 故
+                // 當p == A時, temp[] = {A, B, C, D}
+                // 當p == B時, temp[] = {B, A, C, D}
+                // 故只有當temp[]是排序好的時候, 才需加入segments[]內
                 if (needCheck) {
                     if (count >= NUMBER_OF_POINT) {
-                        Arrays.sort(temp, 0, count - 1);
-                        if (temp[0].compareTo(p) == 0) {
+                        // 只要temp[0] < temp[1]時才代表, 此時temp[0](也就是p)是最小的端點
+                        if (less(temp[0], temp[1])) {
                             // System.out.println("找到: " + p + ", " + aux[j - 1]);
                             segments[numberOfSegments++] = new LineSegment(p, aux[j - 1]);
                         }
