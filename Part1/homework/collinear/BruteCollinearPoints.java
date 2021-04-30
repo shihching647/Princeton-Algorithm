@@ -13,14 +13,20 @@ import java.util.Arrays;
 public class BruteCollinearPoints {
 
     private LineSegment[] segments;
-    private int numberOfSegments;
+    private int numberOfSegments = 0;
 
     // finds all line segments containing 4 points
     public BruteCollinearPoints(Point[] points) {
         check(points);
 
         int n = points.length;
-        segments = new LineSegment[n];
+        segments = new LineSegment[n * n];
+
+        // if points[] only contains one element
+        if (points.length <= 1) {
+            segments = new LineSegment[0];  // 回傳長度為0的陣列, 而不是null
+            return;
+        }
 
         // sort points
         Point[] copyPoints = points.clone();
@@ -45,6 +51,17 @@ public class BruteCollinearPoints {
             }
         }
 
+        // 把segments[]轉換為長度為numberOfSegments的陣列
+        normalizeResult();
+
+    }
+
+    private void normalizeResult() {
+        LineSegment[] result = new LineSegment[numberOfSegments];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = segments[i];
+        }
+        segments = result;
     }
 
     // check arguments is legal or not
@@ -77,11 +94,7 @@ public class BruteCollinearPoints {
 
     // the line segments
     public LineSegment[] segments() {
-        LineSegment[] result = new LineSegment[numberOfSegments];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = segments[i];
-        }
-        return result;
+        return segments.clone(); // 不能直接回傳segments, 因為這樣會被修改
     }
 
     public static void main(String[] args) {

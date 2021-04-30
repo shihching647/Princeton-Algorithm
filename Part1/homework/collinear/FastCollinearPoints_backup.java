@@ -10,7 +10,7 @@ import edu.princeton.cs.algs4.StdOut;
 
 import java.util.Arrays;
 
-public class FastCollinearPoints2 {
+public class FastCollinearPoints_backup {
 
     private static final int NUMBER_OF_POINT = 4;
     private LineSegment[] segments;
@@ -18,52 +18,60 @@ public class FastCollinearPoints2 {
 
 
     // finds all line segments containing 4 or more points
-    public FastCollinearPoints2(Point[] points) {
+    public FastCollinearPoints_backup(Point[] points) {
         check(points);
 
         int n = points.length;
-        segments = new LineSegment[n];
+        segments = new LineSegment[9000];
 
         // sort points
         Point[] copyPoints = points.clone();
         Arrays.sort(copyPoints);
         checkDuplicate(copyPoints);
 
-        Point[] aux = new Point[n];
-        Point[] temp = new Point[n];
+        Point[] aux = new Point[n - 1];
+        Point preDestination = copyPoints[0];
+        double preSlope = preDestination.slopeTo(preDestination);
 
         for (int i = 0; i < n; i++) {
             Point p = copyPoints[i];
-            System.arraycopy(copyPoints, 0, aux, 0, n);
+            for (int j = i + 1, k = 0; j < n; j++) {
+                aux[k++] = copyPoints[j];
+            }
             // System.out.println("aux[] = " + Arrays.toString(aux));
-            Arrays.sort(aux, p.slopeOrder());
+            Arrays.sort(aux, 0, n - 1 - i, p.slopeOrder());
             // System.out.println("aux[] = " + Arrays.toString(aux));
-
-            int count = 0;
-            double slope = p.slopeTo(aux[1]);
-            temp[0] = aux[1];
-            for (int j = 2; j < aux.length; j++) {
+            // Point minPoint = aux[0];
+            double maxSlope = p.slopeTo(aux[0]);
+            // System.out.println("point = " + aux[0] + "maxSlope = " + maxSlope);
+            int count = 1;
+            int j;
+            double slope = 0;
+            for (j = 1; i + j < n - 1; j++) {
                 Point currentPoint = aux[j];
-                double currentSlope = p.slopeTo(currentPoint);
+                slope = p.slopeTo(currentPoint);
                 // System.out.println("slope = " + slope);
                 // if (slope == preSlope) continue;
-                if (currentSlope == slope) {
-                    temp[count++] = currentPoint;
-                }
+                if (slope == maxSlope) count++;
                 else {
-                    if (count >= NUMBER_OF_POINT - 1 || j == aux.length - 1) {
-                        System.out.println(Arrays.toString(temp));
-                        Arrays.sort(temp, 0, count);
-                        if (temp[1] != null && temp[0].compareTo(currentPoint) == 0) {
-                            System.out.println("找到: " + p + ", " + aux[j - 1]);
-                            segments[numberOfSegments++] = new LineSegment(p, aux[j - 1]);
-                        }
+                    if (count >= NUMBER_OF_POINT - 1
+                            && (preDestination.compareTo(aux[j - 1]) != 0 || slope != preSlope)) {
+                        // System.out.println("找到: " + p + ", " + aux[j - 1]);
+                        segments[numberOfSegments++] = new LineSegment(p, aux[j - 1]);
                     }
+                    // minPoint = currentPoint;
+                    maxSlope = slope;
                     count = 1;
-                    slope = currentSlope;
-                    temp[0] = currentPoint;
                 }
-                System.out.println(count);
+                // System.out.println(count);
+            }
+            if (count >= NUMBER_OF_POINT - 1 && (preDestination.compareTo(aux[j - 1]) != 0
+                    || slope != preSlope)) {
+                // System.out.println("找到: " + p + ", " + aux[j - 1]);
+                segments[numberOfSegments++] = new LineSegment(p, aux[j - 1]);
+                preDestination = aux[j - 1];
+                preSlope = maxSlope;
+                // i += count - 1;
             }
         }
     }
@@ -126,7 +134,7 @@ public class FastCollinearPoints2 {
         StdDraw.show();
 
         // print and draw the line segments
-        FastCollinearPoints2 collinear = new FastCollinearPoints2(points);
+        FastCollinearPoints_backup collinear = new FastCollinearPoints_backup(points);
         for (LineSegment segment : collinear.segments()) {
             StdOut.println(segment);
             segment.draw();
