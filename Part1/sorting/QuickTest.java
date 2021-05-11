@@ -69,14 +69,15 @@ public class QuickTest {
     }
 
     public static void main(String[] args) {
-        String[] a = { "a", "a", "a", "z", "g", "y", "w", "x" };
-        QuickTest.sort(a);
-        System.out.println(Arrays.toString(a));
-        // for (int i = 0; i < 50; i++) {
-        //     Integer[] arr = new Integer[i];
-        //     QuickTest.sort(arr);
-        //     assert isSorted(arr, 0, arr.length);
-        //     System.out.println(arr);
-        // }
+        // String[] a = { "a", "a", "a", "z", "g", "y", "w", "x" };
+        // QuickTest.sort(a);
+        // System.out.println(Arrays.toString(a));
+        Integer[] arr = new Integer[20];
+        for (int i = 0; i < 20; i++) {
+            arr[i] = StdRandom.uniform(1000);
+        }
+        QuickTest.sort(arr);
+        assert isSorted(arr, 0, arr.length);
+        System.out.println(Arrays.toString(arr));
     }
 }
