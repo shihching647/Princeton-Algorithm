@@ -45,6 +45,7 @@ public class MaxPQTest<K> {
             resize(2 * pq.length);
         pq[++n] = key;
         swin(n);
+        assert (isMaxHeap());
     }
 
     private void swin(int k) {
@@ -66,6 +67,7 @@ public class MaxPQTest<K> {
         pq[n--] = null;
         sink(1);
         if ((n > 0) && (n == (pq.length - 1) / 4)) resize(pq.length / 2);
+        assert (isMaxHeap());
         return temp;
     }
 
@@ -73,7 +75,7 @@ public class MaxPQTest<K> {
         while (2 * k <= n) {
             int j = 2 * k;
             if (j < n && less(j, j + 1)) j = j + 1; // choose the bigger one child
-            if (less(j, k)) break; // if the bigger child is less than parent, break
+            if (!less(k, j)) break; // if the parent is not less than bigger child , break
             exch(j, k);
             k = j;
         }
@@ -95,6 +97,31 @@ public class MaxPQTest<K> {
             temp[i] = pq[i];
         }
         pq = temp;
+    }
+
+    private boolean isMaxHeap() {
+        // check pq[0] is null
+        if (pq[0] != null) return false;
+
+        // check pq[1] ~ pq[n] is not null
+        for (int i = 1; i <= n; i++) {
+            if (pq[i] == null) return false;
+        }
+
+        // check pq[n+1] ~ pq[pq.length - 1] is null
+        for (int i = n + 1; i < pq.length; i++) {
+            if (pq[i] != null) return false;
+        }
+        return isMaxHeapOrdered(1);
+    }
+
+    private boolean isMaxHeapOrdered(int k) {
+        if (k > n) return true; // terminate condition
+        int left = 2 * k;
+        int right = left + 1;
+        if (left <= n && less(k, left)) return false; // if left > k => no left child
+        if (right <= n && less(k, right)) return false; // if right > k => no right child
+        return isMaxHeapOrdered(left) && isMaxHeapOrdered(right);
     }
 
     public static void main(String[] args) {
