@@ -25,16 +25,15 @@ public class Board {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 this.tiles[i][j] = tiles[i][j];
+                int correctVale = getCorrectValue(i, j);
+                goalBoard[i][j] = (correctVale == n * n) ? 0 : correctVale;
                 if (tiles[i][j] == 0) {
                     blankI = i;
                     blankJ = j;
                 }
-                int correctVale = getCorrectValue(i, j);
-                goalBoard[i][j] = (correctVale == n * n) ? 0 : correctVale;
-
-                if (!(i == n - 1 && j == n - 1)) {
+                else { // if tile[i][j] is not blank, compute Hamming and Manhattan distance
                     // compute hamming
-                    if (this.tiles[i][j] != goalBoard[i][j]) hamming++;
+                    if (tiles[i][j] != goalBoard[i][j]) hamming++;
                     // compute manhattan
                     manhattan += computeManhattan(tiles[i][j], i, j);
                 }
@@ -50,7 +49,7 @@ public class Board {
 
     private int computeManhattan(int value, int i, int j) {
         if (value == 0) {
-            return (n - 1 - i) + (n - 1 - j);
+            return 0;
         }
         value--;
         int correctI = value / n;
@@ -94,6 +93,7 @@ public class Board {
     // does this board equal y?
     @Override
     public boolean equals(Object y) {
+        if (y == null) return false;
         if (y.getClass() != Board.class) return false; // check data type
         Board that = (Board) y;
         if (this == that) return true;      // check reference
