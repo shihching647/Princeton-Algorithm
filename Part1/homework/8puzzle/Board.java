@@ -6,15 +6,15 @@
 
 import edu.princeton.cs.algs4.In;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Board {
+public final class Board {
     private final int[][] tiles;
     private int n; // dimension
     private int hamming;
     private int manhattan;
-    // private boolean isGoal;
     private int blankI, blankJ;
 
     // where tiles[row][col] = tile at (row, col)
@@ -39,7 +39,6 @@ public class Board {
                 }
             }
         }
-        // this.isGoal = checkTiles(this.tiles, goalBoard);
     }
 
     private int getCorrectValue(int i, int j) {
@@ -98,7 +97,8 @@ public class Board {
         Board that = (Board) y;
         if (this == that) return true;      // check reference
         if (this.n != that.n) return false; // check dimension
-        return checkTiles(this.tiles, that.tiles);
+        // return checkTiles(this.tiles, that.tiles);
+        return Arrays.deepEquals(this.tiles, that.tiles);
     }
 
     // check every title
