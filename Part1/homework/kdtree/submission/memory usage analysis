@@ -1,0 +1,38 @@
+Memory usage:
+
+non-static TreeNode with 3 Rect - leftRect, rightRect, rect: 
+208.00 n + 80.00
+
+non-static TreeNode with 2 Rect - leftRect, rightRect: 
+200.00 n + 32.00
+
+static TreeNode with 3 Rect - leftRect, rightRect, rect: 
+200.00 n + 80.00
+
+static TreeNode with 2 Rect - leftRect, rightRect: 
+192.00 n + 32.00
+
+static TreeNode with 1 Rect - rect: (與上面差192 - 136 = 56, 差在一個refence:8, 一個RectHV:48) 
+136.00 n + 32.00
+
+private static class TreeNode {
+    private Point2D point;
+    private boolean level;
+    private RectHV rect;
+    private TreeNode left, right;
+ }
+
+ (與下面128差8不知道怎麼來的)
+=========================================================================
+reference memory (bytes) = 128.00 n + 32.00
+
+// static class -> overhead 8bytes(non-static 16bytes)
+private static class Node {
+   private Point2D p;      // reference 8bytes + Point2D 32bytes
+   private RectHV rect;    // reference 8btyes + RectHV 48bytes
+   private Node lb;        // reference 8btyes
+   private Node rt;        // reference 8btyes
+}
+// Padding 8 bytes
+
+8 + 8 + 32 + 8 + 48 + 8 + 8 + 8 = 128btyes 
