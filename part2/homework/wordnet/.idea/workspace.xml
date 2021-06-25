@@ -19,6 +19,11 @@
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
     <option name="SCHEME" value="Project" />
   </component>
   <component name="FindBugs-IDEA-Workspace">
@@ -36,10 +41,23 @@
     <option name="sortByType" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="ToolWindowMessages.ShowToolbar" value="false" />
     <property name="ToolWindowRun.ShowToolbar" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="settings.saveactions" />
+  </component>
+  <component name="RunManager">
+    <configuration name="SAP" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="SAP" />
+      <module name="Algorithms, Part II" />
+      <option name="PROGRAM_PARAMETERS" value="digraph25.txt" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <method v="2" />
+    </configuration>
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -49,5 +67,43 @@
       <are-packages-shown value="true" />
       <is-autoscroll-to-source value="true" />
     </todo-panel>
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1259" height="264" key="GridCell.Tab.0.bottom" timestamp="1624548103360">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1259" height="264" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1624548103360" />
+    <state width="1259" height="264" key="GridCell.Tab.0.center" timestamp="1624548103359">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1259" height="264" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1624548103359" />
+    <state width="1259" height="264" key="GridCell.Tab.0.left" timestamp="1624548103359">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1259" height="264" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1624548103359" />
+    <state width="1259" height="264" key="GridCell.Tab.0.right" timestamp="1624548103360">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1259" height="264" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1624548103360" />
+    <state width="1259" height="264" key="GridCell.Tab.1.bottom" timestamp="1624548103362">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1259" height="264" key="GridCell.Tab.1.bottom/0.0.1280.800@0.0.1280.800" timestamp="1624548103362" />
+    <state width="1259" height="264" key="GridCell.Tab.1.center" timestamp="1624548103361">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1259" height="264" key="GridCell.Tab.1.center/0.0.1280.800@0.0.1280.800" timestamp="1624548103361" />
+    <state width="1259" height="264" key="GridCell.Tab.1.left" timestamp="1624548103361">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1259" height="264" key="GridCell.Tab.1.left/0.0.1280.800@0.0.1280.800" timestamp="1624548103361" />
+    <state width="1259" height="264" key="GridCell.Tab.1.right" timestamp="1624548103362">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1259" height="264" key="GridCell.Tab.1.right/0.0.1280.800@0.0.1280.800" timestamp="1624548103362" />
+    <state x="305" y="124" width="670" height="676" key="search.everywhere.popup" timestamp="1624544351828">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="305" y="124" width="670" height="676" key="search.everywhere.popup/0.0.1280.800@0.0.1280.800" timestamp="1624544351828" />
   </component>
 </project>
