@@ -1,16 +1,17 @@
 /* *****************************************************************************
  *  Name: 647
  *  Date:
- *  Description:
+ *  Description: 寫得很爛, 有機會要重寫
  **************************************************************************** */
 
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Queue;
-import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
 import java.util.Arrays;
+
+// TODO 寫得很爛, 有機會要重寫
 
 public class SAP {
     private boolean[] markedV, markedW;
@@ -28,6 +29,8 @@ public class SAP {
         markedW = new boolean[G.V()];
         distToV = new int[G.V()];
         distToW = new int[G.V()];
+        Arrays.fill(distToV, -1);
+        Arrays.fill(distToW, -1);
         this.G = new Digraph(G);
     }
 
@@ -35,7 +38,6 @@ public class SAP {
     public int length(int v, int w) {
         validateVertex(v);
         validateVertex(w);
-        reset();
         bfs(v, w);
         if (hasCommon) return distToW[common] + distToV[common];
         else return -1;
@@ -45,7 +47,6 @@ public class SAP {
     public int ancestor(int v, int w) {
         validateVertex(v);
         validateVertex(w);
-        reset();
         bfs(v, w);
         if (hasCommon) return common;
         else return -1;
@@ -60,7 +61,6 @@ public class SAP {
     public int length(Iterable<Integer> v, Iterable<Integer> w) {
         validate(v);
         validate(w);
-        reset();
         bfs(v, w);
         if (hasCommon) return distToW[common] + distToV[common];
         else return -1;
@@ -70,7 +70,6 @@ public class SAP {
     public int ancestor(Iterable<Integer> v, Iterable<Integer> w) {
         validate(v);
         validate(w);
-        reset();
         bfs(v, w);
         if (hasCommon) return common;
         else return -1;
@@ -86,16 +85,22 @@ public class SAP {
         }
     }
 
-
     private void reset() {
         Arrays.fill(markedV, false);
         Arrays.fill(markedW, false);
-        Arrays.fill(distToV, 0);
-        Arrays.fill(distToW, 0);
+        Arrays.fill(distToV, -1);
+        Arrays.fill(distToW, -1);
+        hasCommon = false;
     }
 
     private void bfs(int v, int w) {
-        hasCommon = false;
+        // 如果query與上次相同(或v,w交換), 不重複做
+        // TODO 加這行 Test 20: random calls to both version of length() and ancestor(), with probabilities p1 and p2, respectively 會fail, 不知道為何
+        // if (distToV[v] == 0 && distToW[w] == 0 || distToW[v] == 0 && distToV[w] == 0) {
+        //     return;
+        // }
+
+        reset();
         Queue<Integer> queueV = new Queue<>();
         queueV.enqueue(v);
         markedV[v] = true;
@@ -116,7 +121,7 @@ public class SAP {
     }
 
     private void bfs(Iterable<Integer> v, Iterable<Integer> w) {
-        hasCommon = false;
+        reset();
         Queue<Integer> queueV = new Queue<>();
         for (int x : v) {
             queueV.enqueue(x);
@@ -137,10 +142,12 @@ public class SAP {
         bfs(queueV, queueW);
     }
 
+
     private void bfs(Queue<Integer> queueV, Queue<Integer> queueW) {
         while (!queueV.isEmpty() || !queueW.isEmpty()) {
+            int x = -1;
             if (!queueV.isEmpty()) {
-                int x = queueV.dequeue();
+                x = queueV.dequeue();
                 for (int i : G.adj(x)) {
                     if (!markedV[i]) {
                         markedV[i] = true;
@@ -159,8 +166,9 @@ public class SAP {
                 }
             }
 
+            int y = -1;
             if (!queueW.isEmpty()) {
-                int y = queueW.dequeue();
+                y = queueW.dequeue();
                 for (int i : G.adj(y)) {
                     if (!markedW[i]) {
                         markedW[i] = true;
@@ -177,8 +185,12 @@ public class SAP {
                         }
                     }
                 }
-                if (hasCommon && distToV[y] + 1 > distToV[common] + distToW[common])
-                    break;
+            }
+
+            // v, w個別都同時已經超過最佳解 distToV[common] + distToW[common] -> break
+            if (hasCommon && x != -1 && distToV[x] > distToV[common] + distToW[common]
+                    && y != -1 && distToW[y] > distToV[common] + distToW[common]) {
+                break;
             }
         }
     }
@@ -188,12 +200,12 @@ public class SAP {
         In in = new In(args[0]);
         Digraph G = new Digraph(in);
         SAP sap = new SAP(G);
-        while (!StdIn.isEmpty()) {
-            int v = StdIn.readInt();
-            int w = StdIn.readInt();
-            int length = sap.length(v, w);
-            int ancestor = sap.ancestor(v, w);
-            StdOut.printf("length = %d, ancestor = %d\n", length, ancestor);
-        }
+        Iterable<Integer> v = Arrays.asList(23814, 26923, 75631);
+        Iterable<Integer> w = Arrays
+                .asList(12986, 13382, 15434, 17440, 35765, 49555, 53352, 60511, 63814, 65338,
+                        81335);
+        int length = sap.length(v, w);
+        int ancestor = sap.ancestor(v, w);
+        StdOut.printf("length = %d, ancestor = %d\n", length, ancestor);
     }
 }
