@@ -31,7 +31,7 @@ public class EdgeWeightedGraphTest {
                 int v = in.readInt();
                 int w = in.readInt();
                 double weight = in.readDouble();
-                addEdge(v, w, new EdgeTest(v, w, weight));
+                addEdge(new EdgeTest(v, w, weight));
             }
         }
         catch (NoSuchElementException e) {
@@ -42,7 +42,9 @@ public class EdgeWeightedGraphTest {
 
     }
 
-    public void addEdge(int v, int w, EdgeTest e) {
+    public void addEdge(EdgeTest e) {
+        int v = e.either();
+        int w = e.other(v);
         validateVertex(v);
         validateVertex(w);
         adj[v].add(e);
@@ -61,6 +63,30 @@ public class EdgeWeightedGraphTest {
 
     public int V() {
         return V;
+    }
+
+    public int degree(int v) {
+        validateVertex(v);
+        return adj[v].size();
+    }
+
+    public Iterable<EdgeTest> edges() {
+        Bag<EdgeTest> list = new Bag<>();
+        for (int v = 0; v < V; v++) {
+            int selfLoops = 0;
+            for (EdgeTest e : adj[v]) {
+                if (v > e.other(v)) {
+                    list.add(e);
+                }
+                // add only one copy of each self loop (self loops will be consecutive)
+                // 因為 addEdge() 裡面, v == w 時候, 會在adj[v] 連續加兩次
+                else if (v == e.other(v)) {
+                    if (selfLoops % 2 == 0) list.add(e);
+                    selfLoops++;
+                }
+            }
+        }
+        return list;
     }
 
     public String toString() {
@@ -85,5 +111,9 @@ public class EdgeWeightedGraphTest {
         In in = new In(args[0]);
         EdgeWeightedGraphTest G = new EdgeWeightedGraphTest(in);
         StdOut.println(G);
+        System.out.println(G.degree(7));
+        for (EdgeTest e : G.edges()) {
+            System.out.println(e);
+        }
     }
 }
