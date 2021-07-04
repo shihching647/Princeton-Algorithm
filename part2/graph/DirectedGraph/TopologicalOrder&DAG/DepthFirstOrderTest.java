@@ -45,6 +45,34 @@ public class DepthFirstOrderTest {
         postOrder.enqueue(v);
     }
 
+
+    public DepthFirstOrderTest(EdgeWeightedDigraphTest G) {
+        marked = new boolean[G.V()];
+        pre = new int[G.V()];
+        post = new int[G.V()];
+        preOrder = new Queue<>();
+        postOrder = new Queue<>();
+
+        for (int v = 0; v < G.V(); v++)
+            if (!marked[v])
+                dfs(G, v);
+    }
+
+    private void dfs(EdgeWeightedDigraphTest G, int v) {
+        marked[v] = true;
+        pre[v] = preCount++;
+        preOrder.enqueue(v);
+
+        for (DirectedEdgeTest e : G.adj(v)) {
+            int w = e.to();
+            if (!marked[w])
+                dfs(G, w);
+        }
+
+        post[v] = postCount++;
+        postOrder.enqueue(v);
+    }
+
     public int pre(int v) {
         validateVertex(v);
         return pre[v];

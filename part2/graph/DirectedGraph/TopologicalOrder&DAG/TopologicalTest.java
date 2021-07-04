@@ -24,6 +24,18 @@ public class TopologicalTest {
         }
     }
 
+    public TopologicalTest(EdgeWeightedDigraphTest G) {
+        EdgeWeightedDirectedCycleTest finder = new EdgeWeightedDirectedCycleTest(G);
+        if (!finder.hasCycle()) {
+            DepthFirstOrderTest dfs = new DepthFirstOrderTest(G);
+            order = dfs.reversePost();
+            rank = new int[G.V()];
+            int count = 0;
+            for (int v : order)
+                rank[v] = count++;
+        }
+    }
+
     public boolean hasOrder() {
         return order != null;
     }
