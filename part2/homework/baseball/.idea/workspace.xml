@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c1e4f978-b3bd-4ae1-84e9-9e1170bce808" name="Default" comment="" />
+    <list default="true" id="c1e4f978-b3bd-4ae1-84e9-9e1170bce808" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/../../../Part1/homework/8puzzle/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Part1/homework/8puzzle/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Part1/homework/kdtree/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Part1/homework/kdtree/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../developer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../developer/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../developer/ArrayQueueTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../developer/ArrayStackTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../developer/Bag.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../developer/FixedCapacityStack.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../developer/LinkedQueueTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../developer/Queue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../developer/ResizingArrayQueue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../developer/ResizingArrayStack.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../developer/Stack.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BaseballElimination.java" beforeDir="false" afterPath="$PROJECT_DIR$/BaseballElimination.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,7 +45,23 @@
     <analyzeAfterCompile>true</analyzeAfterCompile>
     <toolWindowToFront>false</toolWindowToFront>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="255" />
+    <option name="y" value="33" />
+    <option name="width" value="1400" />
+    <option name="height" value="1000" />
+  </component>
   <component name="ProjectId" id="1vCmFlmlLJUEp5lT5Mpvk999Vxc" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="abbreviatePackageNames" value="true" />
     <option name="autoscrollFromSource" value="true" />
@@ -41,10 +72,30 @@
     <option name="sortByType" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="ToolWindowMessages.ShowToolbar" value="false" />
     <property name="ToolWindowRun.ShowToolbar" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="settings.saveactions" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <created>1626104295094</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1626104295094</updated>
+      <workItem from="1626104300072" duration="19000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="19000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -54,6 +105,9 @@
       <are-packages-shown value="true" />
       <is-autoscroll-to-source value="true" />
     </todo-panel>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1626076177816">
