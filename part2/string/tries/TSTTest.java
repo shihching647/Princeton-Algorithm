@@ -4,6 +4,10 @@
  *  Last modified:     October 16, 1842
  **************************************************************************** */
 
+import edu.princeton.cs.algs4.Queue;
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
+
 public class TSTTest<Value> {
 
     private static class Node<Value> {
@@ -94,8 +98,112 @@ public class TSTTest<Value> {
         else return x;
     }
 
+    public Iterable<String> keys() {
+        Queue<String> result = new Queue<>();
+        collect(root, new StringBuilder(), result);
+        return result;
+    }
+
+    public Iterable<String> keysWithPrefix(String prefix) {
+        if (prefix == null)
+            throw new IllegalArgumentException("calls keysWithPrefix() with null argument");
+        Node<Value> x = get(root, prefix, 0);
+        Queue<String> result = new Queue<>();
+        if (x == null) return result;
+        if (x.val != null) result.enqueue(prefix); // 檢查本身是否含有val
+        collect(x.mid, new StringBuilder(prefix), result);
+        return result;
+    }
+
+
+    // collect all keys root at x
+    private void collect(Node<Value> x, StringBuilder prefix, Queue<String> result) {
+        if (x == null) return;
+        // inorder traversal
+        collect(x.left, prefix, result);
+        if (x.val != null) result.enqueue(prefix.toString() + x.c);
+        prefix.append(x.c);
+        collect(x.mid, prefix, result);
+        prefix.deleteCharAt(prefix.length() - 1);
+        collect(x.right, prefix, result);
+    }
+
+    public String longestPrefixOf(String query) {
+        if (query == null)
+            throw new IllegalArgumentException("calls longestPrefixOf() with null argument");
+        if (query.length() == 0) return null;
+        int length = 0;
+        Node<Value> x = root;
+        int d = 0;
+        while (x != null && d < query.length()) {
+            char c = query.charAt(d);
+            if (c < x.c) x = x.left;
+            else if (c > x.c) x = x.right;
+            else {
+                d++;
+                if (x.val != null) length = d;
+                x = x.mid;
+            }
+        }
+        return query.substring(0, length);
+    }
+
+    public Iterable<String> keysThatMatch(String pattern) {
+        Queue<String> result = new Queue<>();
+        collect(root, new StringBuilder(), 0, pattern, result);
+        return result;
+    }
+
+    private void collect(Node<Value> x, StringBuilder prefix, int d, String pattern,
+                         Queue<String> result) {
+        if (x == null) return;
+        char c = pattern.charAt(d);
+        if (c == '.' || c < x.c) collect(x.left, prefix, d, pattern, result);
+        if (c == '.' || c == x.c) {
+            if (x.val != null && d == pattern.length() - 1)
+                result.enqueue(prefix.toString() + x.c);
+            if (d < pattern.length() - 1) {
+                collect(x.mid, prefix.append(x.c), d + 1, pattern, result);
+                prefix.deleteCharAt(prefix.length() - 1);
+            }
+        }
+        if (c == '.' || c > x.c) collect(x.right, prefix, d, pattern, result);
+    }
+
 
     public static void main(String[] args) {
 
+        // build symbol table from standard input
+        TSTTest<Integer> st = new TSTTest<Integer>();
+        for (int i = 0; !StdIn.isEmpty(); i++) {
+            String key = StdIn.readString();
+            st.put(key, i);
+        }
+
+        // print results
+        if (st.size() < 100) {
+            StdOut.println("keys(\"\"):");
+            for (String key : st.keys()) {
+                StdOut.println(key + " " + st.get(key));
+            }
+            StdOut.println();
+        }
+
+        StdOut.println("longestPrefixOf(\"shellsort\"):");
+        StdOut.println(st.longestPrefixOf("shellsort"));
+        StdOut.println();
+
+        StdOut.println("longestPrefixOf(\"shell\"):");
+        StdOut.println(st.longestPrefixOf("shell"));
+        StdOut.println();
+
+        StdOut.println("keysWithPrefix(\"shor\"):");
+        for (String s : st.keysWithPrefix("shor"))
+            StdOut.println(s);
+        StdOut.println();
+
+        StdOut.println("keysThatMatch(\".he.l.\"):");
+        for (String s : st.keysThatMatch(".he.l."))
+            StdOut.println(s);
     }
 }
