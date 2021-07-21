@@ -8,23 +8,24 @@ import edu.princeton.cs.algs4.StdOut;
 
 public class KMPTest {
     private final int m;
-    private final int charSize; // 字串包含不同字元的總數，default = 2^8 = 256
+    private final int R; // 字串包含不同字元的總數，default = 2^8 = 256
     private int[][] dfa; // deterministic finite-state automation
 
     public KMPTest(String pattern) {
         this.m = pattern.length();
-        this.charSize = 256;
+        this.R = 256;
 
         // init dfa
-        dfa = new int[charSize][m];
+        dfa = new int[R][m];
         dfa[pattern.charAt(0)][0] = 1;
         for (int x = 0, j = 1; j < m; j++) {
-            // mismatch case
-            for (int c = 0; c < charSize; c++)
+            // mismatch case (Simulate pat[1..j-1] on DFA and take transition c)
+            // 此處x為Simulate pat[1..j-1]後的狀態, 故直接將dfa[c][x] copy到dfa[c][j]
+            for (int c = 0; c < R; c++)
                 dfa[c][j] = dfa[c][x];
             // match case
             dfa[pattern.charAt(j)][j] = j + 1;
-            // update x state
+            // update x state (每次前進一個狀態, 也將x狀態更新)(x為Simulate pat[1..j-1]後的狀態)
             x = dfa[pattern.charAt(j)][x];
         }
     }
@@ -35,7 +36,7 @@ public class KMPTest {
         for (i = 0, j = 0; i < n && j < m; i++) {
             j = dfa[text.charAt(i)][j]; // update j via DFA
         }
-        if (j == m) return i - m;
+        if (j == m) return i - m; // 有找到substring, 回傳start的位置
         else return n;
     }
 
