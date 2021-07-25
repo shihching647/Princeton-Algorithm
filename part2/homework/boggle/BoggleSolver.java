@@ -6,10 +6,8 @@
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut;
-import edu.princeton.cs.algs4.TST;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 public class BoggleSolver {
@@ -20,18 +18,18 @@ public class BoggleSolver {
     private static final int R = 26;
     private static final char SPECIAL_CHAR = 'Q';
 
-    private TST<Integer>[] dic; // dic分別為開頭為'A' ~ 'Z'的 TST(Ternary Search Trie)
+    private TSTUtil<Integer>[] dic; // dic分別為開頭為'A' ~ 'Z'的 TST(Ternary Search Trie)
     private boolean[][] internalBoard;
 
     // Initializes the data structure using the given array of strings as the dictionary.
     // (You can assume each word in the dictionary contains only the uppercase letters A through Z.)
     public BoggleSolver(String[] dictionary) {
-        dic = new TST[R];
+        dic = new TSTUtil[R];
         for (int i = 0; i < dic.length; i++)
-            dic[i] = new TST<>();
+            dic[i] = new TSTUtil<>();
 
         for (String word : dictionary) {
-            TST<Integer> table = dic[(word.charAt(0) - 'A')];
+            TSTUtil<Integer> table = dic[(word.charAt(0) - 'A')];
             if (word.length() >= MIN_LENGTH_TO_GET_SCORE)
                 table.put(word, calculateScore(word));
         }
@@ -52,13 +50,18 @@ public class BoggleSolver {
     }
 
     private void dfs(int row, int col, StringBuilder prefix, BoggleBoard board,
-                     TST<Integer> table, Set<String> result) {
+                     TSTUtil<Integer> table, Set<String> result) {
 
         // Cut off. If there are no more words start with prefix, stop immediately.
         if (prefix.length() >= MIN_LENGTH_TO_GET_SCORE) {
-            Iterator<String> it = table.keysWithPrefix(prefix.toString()).iterator();
-            if (!it.hasNext())
+            if (!table.hasKeysWithPrefix(prefix.toString()))
                 return;
+            // boolean hasAny = false;
+            // for (String str : table.keysWithPrefix(prefix.toString())) {
+            //     hasAny = true;
+            //     break;
+            // }
+            // if (!hasAny) return;
         }
 
         internalBoard[row][col] = true;
