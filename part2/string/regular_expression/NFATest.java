@@ -72,7 +72,7 @@ public class NFATest {
             for (int v : pc) {
                 if (v == m) continue; // accept state
                 if (regex.charAt(v) == text.charAt(i) || regex.charAt(v) == '.')
-                    match.add(i + 1); // match往前移一個state
+                    match.add(v + 1); // match往前移一個state
             }
 
             // ε-transitions
