@@ -33,7 +33,7 @@ public class CircularSuffixArray {
                 if (this.charAt(i) < that.charAt(i)) return -1;
                 if (this.charAt(i) > that.charAt(i)) return +1;
             }
-            return this.length() - that.length();
+            return 0;
         }
 
         public String toString() {
@@ -58,7 +58,7 @@ public class CircularSuffixArray {
         for (int i = 0; i < length(); i++) {
             circularSuffixArray[i] = new CircularSuffix(s, i);
         }
-        
+
         // 排序
         Arrays.sort(circularSuffixArray);
 
@@ -74,7 +74,7 @@ public class CircularSuffixArray {
 
     // returns index of ith sorted suffix
     public int index(int i) {
-        if (i < 0 || i > length())
+        if (i < 0 || i >= length())
             throw new IllegalArgumentException("argument for index() out of bound");
         return index[i];
     }
