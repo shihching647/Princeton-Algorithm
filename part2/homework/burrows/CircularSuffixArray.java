@@ -10,6 +10,8 @@ import java.util.Arrays;
 
 public class CircularSuffixArray {
 
+    private static final int R = 256;
+
     private static class CircularSuffix implements Comparable<CircularSuffix> {
         private final String text;
         private final int start;

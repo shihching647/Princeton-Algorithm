@@ -8,6 +8,9 @@ import edu.princeton.cs.algs4.BinaryStdIn;
 import edu.princeton.cs.algs4.BinaryStdOut;
 import edu.princeton.cs.algs4.Queue;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class BurrowsWheeler {
 
     private static final int R = 256;
@@ -37,18 +40,20 @@ public class BurrowsWheeler {
         BinaryStdOut.close();
     }
 
+
     // apply Burrows-Wheeler inverse transform,
     // reading from standard input and writing to standard output
     public static void inverseTransform() {
         int first = BinaryStdIn.readInt();
-        // 使用R個queue去記住各char出現的位置, 方便後面建立next[]
-        Queue<Integer>[] queues = (Queue<Integer>[]) new Queue[R];
+        // 使用R個queue去記住各char出現的位置, 方便後面建立next[] -> 會有warning導致分數太低
+        // 改用map紀錄
+        Map<Character, Queue<Integer>> map = new HashMap<>();
         int count = 0;
         while (!BinaryStdIn.isEmpty()) {
             char c = BinaryStdIn.readChar();
-            if (queues[c] == null)
-                queues[c] = new Queue<>();
-            queues[c].enqueue(count++);
+            Queue<Integer> q = map.getOrDefault(c, new Queue<>());
+            q.enqueue(count++);
+            map.put(c, q);
         }
 
         // construct last column t[] and next[]
@@ -56,7 +61,7 @@ public class BurrowsWheeler {
         int[] next = new int[count];
         int i = 0;
         for (char c = 0; c < R; c++) {
-            Queue<Integer> q = queues[c];
+            Queue<Integer> q = map.get(c);
             if (q != null) {
                 while (!q.isEmpty()) {
                     t[i] = c;
