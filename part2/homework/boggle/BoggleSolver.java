@@ -9,7 +9,6 @@ import edu.princeton.cs.algs4.StdOut;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class BoggleSolver {
     private static final int[] SCORE_BOARD = { 0, 0, 0, 1, 1, 2, 3, 5 };
@@ -20,7 +19,6 @@ public class BoggleSolver {
 
     private TrieSTTest<Integer> dic; // dic分別為開頭為'A' ~ 'Z'的 TST(Ternary Search Trie)
     private boolean[][] internalBoard;
-    private Set<Character> charSet;
 
     // Initializes the data structure using the given array of strings as the dictionary.
     // (You can assume each word in the dictionary contains only the uppercase letters A through Z.)
@@ -34,16 +32,8 @@ public class BoggleSolver {
 
     // Returns the set of all valid words in the given Boggle board, as an Iterable.
     public Iterable<String> getAllValidWords(BoggleBoard board) {
-        charSet = new HashSet<>();
-        for (int row = 0; row < board.rows(); row++) {
-            for (int col = 0; col < board.cols(); col++) {
-                char c = board.getLetter(row, col);
-                charSet.add(c);
-                // special case
-                if (c == SPECIAL_CHAR) charSet.add('U');
-            }
-        }
-        Set<String> result = new TreeSet<>();
+        // read board
+        Set<String> result = new HashSet<>();
         for (int row = 0; row < board.rows(); row++) {
             for (int col = 0; col < board.cols(); col++) {
                 internalBoard = new boolean[board.rows()][board.cols()];
@@ -53,14 +43,13 @@ public class BoggleSolver {
         return result;
     }
 
+
     private void dfs(int row, int col, StringBuilder prefix, BoggleBoard board,
                      Set<String> result) {
 
         // Cut off. If there are no more words start with prefix, stop immediately.
-        if (prefix.length() >= MIN_LENGTH_TO_GET_SCORE) {
-            if (!dic.hasKeysWithPrefix(prefix.toString(), charSet))
-                return;
-        }
+        if (!dic.hasKeysWithPrefix(prefix.toString()))
+            return;
 
         internalBoard[row][col] = true;
         char ch = board.getLetter(row, col);
@@ -85,6 +74,7 @@ public class BoggleSolver {
         // special case 要多移除一個字元
         if (ch == SPECIAL_CHAR)
             prefix.deleteCharAt(prefix.length() - 1);
+
     }
 
     // Returns the score of the given word if it is in the dictionary, zero otherwise.
